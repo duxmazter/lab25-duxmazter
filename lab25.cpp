@@ -28,7 +28,63 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
 }
 
-//Write your code here
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){	//no logical errors detected
+	return ComplexNumber((real*c.real)-(imag*c.imag),(real*c.imag)+(c.real*imag));
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){	//fixed
+	double abs2 = pow(c.real,2) + pow(c.imag,2);
+	double real_above = (real*c.real)-(imag*c.imag*(-1));
+	double imag_above = (real*c.imag*(-1))+(c.real*imag);
+	return ComplexNumber(real_above/abs2,imag_above/abs2);
+}
+
+ComplexNumber operator+(double r,ComplexNumber &c){	//no logical errors detected
+	return ComplexNumber(r+c.real,c.imag);
+}
+
+ComplexNumber operator-(double r,ComplexNumber &c){	//no logical errors detected
+	return ComplexNumber(r-c.real,-c.imag);
+}
+
+ComplexNumber operator*(double r,ComplexNumber &c){	//passed the test
+	return ComplexNumber(c.real*r,c.imag*r);
+}
+
+ComplexNumber operator/(double r,ComplexNumber &c){	//tested
+	double abs2 = pow(c.real,2) + pow(c.imag,2);
+	double real_above=r*c.real;
+	double imag_above=r*c.imag*(-1);
+	return ComplexNumber(real_above/abs2,imag_above/abs2);
+}
+
+double ComplexNumber::abs(){						//passed the test
+	return sqrt(pow(real,2)+pow(imag,2));
+}
+
+double ComplexNumber::angle(){						//passed the test
+	return atan2(imag,real) * 180 / M_PI;
+}
+
+
+bool ComplexNumber::operator==(const ComplexNumber&c){
+	if(real==c.real && imag==c.imag) return true;
+	else return false;
+}
+
+bool operator==(double r,const ComplexNumber &c){
+	if(r==c.real && c.imag==0) return true;
+	else return false;
+}
+
+ostream & operator<<(ostream &os,const ComplexNumber &c){
+	if (!(c.real ==0) && c.imag>0) return os << c.real << "+" << c.imag << "i";
+	else if (!(c.real ==0) && c.imag<0) return os << c.real << c.imag << "i";
+	else if (c.imag==0) return os << c.real;
+	else if (c.real==0) return os << c.imag << "i";
+	else return os << 0;
+}
+
 
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
